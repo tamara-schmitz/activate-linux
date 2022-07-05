@@ -34,6 +34,7 @@ ifeq ($(NAME),Darwin)
 endif
 
 all: $(BINARY)
+	cd man; make $(MFLAGS) all || true
 
 %.c: %.cgen
 	@echo -e " GEN\t" $(<)
@@ -49,14 +50,22 @@ $(BINARY): $(OBJECTS)
 
 install: $(BINARY)
 	install -Dm0755 $(BINARY) $(DESTDIR)$(PREFIX)/$(BINDIR)/$(BINARY)
+	cd man; make $(MFLAGS) install || true
 
 uninstall:
 	$(RM) -f $(DESTDIR)$(PREFIX)/$(BINDIR)/$(BINARY)
+	cd man; make $(MFLAGS) uninstall || true
 
 clean:
 	$(RM) -f $(OBJECTS) $(BINARY)
+	cd man; make $(MFLAGS) clean
 
 test: $(BINARY)
 	./$(BINARY)
 
-.PHONY: all clean install test
+testman:
+	cd man; make $(MFLAGS) test
+
+
+.PHONY: all clean install uninstall test testman
+

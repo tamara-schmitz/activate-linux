@@ -10,6 +10,7 @@ Buildroot: /tmp/activate-linux-git
 BuildRequires: clang cairo-devel
 BuildRequires: libXi-devel libX11-devel libXrandr-devel libXt-devel libXinerama-devel
 BuildRequires: wayland-devel
+BuildRequires: pandoc
 
 %if 0%{?suse_version}
 BuildRequires: xcb-proto-devel
@@ -31,6 +32,7 @@ Maintained by MrGlockenspiel.
 
 %build
 export CFLAGS="%optflags"
+export MANDIR="%_mandir"
 %make_build
 
 %install
@@ -40,5 +42,6 @@ export BINDIR="%{_bindir}"
 
 %files
 %{_bindir}/activate-linux
+%{_mandir}/*/*
 %license LICENSE.md
 %doc ARGS.md README.md
