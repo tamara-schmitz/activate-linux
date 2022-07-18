@@ -14,8 +14,7 @@ SOURCES := $(wildcard src/*.c)
 OBJECTS = $(patsubst %.c, %.o, $(SOURCES))
 
 GENERATORS := $(wildcard src/*.cgen)
-GENERATEDSRCS = $(patsubst %.cgen, %.gen.c, $(GENERATORS))
-OBJECTS += $(patsubst %.c, %.o, $(GENERATEDSRCS))
+OBJECTS += $(patsubst %.cgen, %.o, $(GENERATORS))
 
 NAME := $(shell uname -s)
 CFLAGS := \
@@ -36,14 +35,17 @@ endif
 
 all: $(BINARY)
 
-%.gen.c: %.cgen
-	sh $< > $@
+%.c: %.cgen
+	@echo " GEN\t" $(<)
+	@sh $(<) > $(@)
 
 %.o: %.c
-	$(CC) -c $(<) -o $(@) $(CFLAGS)
+	@echo "  CC\t" $(<)
+	@$(CC) -c $(<) -o $(@) $(CFLAGS)
 
 $(BINARY): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $(@) $(LDFLAGS)
+	@echo "LINK\t" $(^)
+	@$(CC) $(^) -o $(@) $(LDFLAGS)
 
 install: $(BINARY)
 	install -Dm0755 $(BINARY) $(DESTDIR)$(PREFIX)/$(BINDIR)/$(BINARY)
@@ -52,7 +54,7 @@ uninstall:
 	$(RM) -f $(DESTDIR)$(PREFIX)/$(BINDIR)/$(BINARY)
 
 clean:
-	$(RM) -f $(OBJECTS) $(GENERATEDSRCS) $(BINARY)
+	$(RM) -f $(OBJECTS) $(BINARY)
 
 test: $(BINARY)
 	./$(BINARY)
