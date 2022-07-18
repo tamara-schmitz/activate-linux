@@ -11,10 +11,10 @@ PKGS := \
 RM = rm
 
 SOURCES := $(wildcard src/*.c)
-OBJECTS = $(patsubst %.c, %.o, $(SOURCES))
+OBJECTS = $(patsubst src/%, obj/%, $(patsubst %.c, %.o, $(SOURCES)))
 
 GENERATORS := $(wildcard src/*.cgen)
-OBJECTS += $(patsubst %.cgen, %.o, $(GENERATORS))
+OBJECTS += $(patsubst src/%, obj/%, $(patsubst %.cgen, %.o, $(GENERATORS)))
 
 NAME := $(shell uname -s)
 CFLAGS := \
@@ -39,7 +39,7 @@ all: $(BINARY)
 	@echo " GEN\t" $(<)
 	@sh $(<) > $(@)
 
-%.o: %.c
+obj/%.o: src/%.c
 	@echo "  CC\t" $(<)
 	@$(CC) -c $(<) -o $(@) $(CFLAGS)
 

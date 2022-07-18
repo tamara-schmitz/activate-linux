@@ -10,7 +10,7 @@ if [ -f "$DIR/X.h" ] && command -v gawk > /dev/null 2>&1;then
 			if ($1 == "#define") {
 				printf "\tcase %2d: return \"%s\";\n", $3, $2
 			}
-		}' /usr/include/X11/X.h
+		}' "$DIR/X.h"
 fi
 
 cat <<EOF
