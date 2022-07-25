@@ -36,15 +36,15 @@ endif
 all: $(BINARY)
 
 %.c: %.cgen
-	@echo " GEN\t" $(<)
+	@echo -e " GEN\t" $(<)
 	@sh $(<) > $(@)
 
 obj/%.o: src/%.c
-	@echo "  CC\t" $(<)
+	@echo -e "  CC\t" $(<)
 	@$(CC) -c $(<) -o $(@) $(CFLAGS)
 
 $(BINARY): $(OBJECTS)
-	@echo "LINK\t" $(^)
+	@echo -e "LINK\t" $(^)
 	@$(CC) $(^) -o $(@) $(LDFLAGS)
 
 install: $(BINARY)
