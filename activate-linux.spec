@@ -29,19 +29,19 @@ Maintained by MrGlockenspiel.
 
 %prep
 %setup -q
+export PREFIX=""
+export BINDIR="%{_bindir}"
+export MANDIR="%{_mandir}"
 
 %build
-export CFLAGS="%optflags"
-export MANDIR="%_mandir"
+export CFLAGS="%{optflags}"
 %make_build
 
 %install
-export PREFIX=""
-export BINDIR="%{_bindir}"
 %make_install
 
 %files
 %{_bindir}/activate-linux
-%{_mandir}/*/*
+%{_mandir}/man1/activate-linux.1.gz
 %license LICENSE.md
 %doc ARGS.md README.md

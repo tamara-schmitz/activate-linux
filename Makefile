@@ -2,6 +2,7 @@ CC ?= clang
 CFLAGS ?= -Og -Wall -Wpedantic -Wextra
 PREFIX ?= /usr/local
 BINDIR ?= bin
+MANDIR ?= $(PREFIX)/share/man
 DESTDIR ?=
 
 PKGS := \
@@ -50,15 +51,15 @@ $(BINARY): $(OBJECTS)
 
 install: $(BINARY)
 	install -Dm0755 $(BINARY) $(DESTDIR)$(PREFIX)/$(BINDIR)/$(BINARY)
-	cd man; make $(MFLAGS) install || true
+	cd man; make $(MFLAGS) 'MANDIR=$(MANDIR)' install || true
 
 uninstall:
 	$(RM) -f $(DESTDIR)$(PREFIX)/$(BINDIR)/$(BINARY)
-	cd man; make $(MFLAGS) uninstall || true
+	cd man; make $(MFLAGS) 'MANDIR=$(MANDIR)' uninstall || true
 
 clean:
 	$(RM) -f $(OBJECTS) $(BINARY)
-	cd man; make $(MFLAGS) clean
+	cd man; make $(MFLAGS) MANDIR=$(MANDIR) clean
 
 test: $(BINARY)
 	./$(BINARY)
