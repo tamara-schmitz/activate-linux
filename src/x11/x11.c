@@ -15,8 +15,8 @@
 #include <cairo.h>
 #include <cairo-xlib.h>
 
-#include "log.h"
-#include "draw.h"
+#include "../log.h"
+#include "../draw.h"
 
 // generated function: returns XEvent name
 const char* XEventName(int type);
